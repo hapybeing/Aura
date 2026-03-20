@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber'
 import { Preload } from '@react-three/drei'
 import { Suspense } from 'react'
 import AuraBlob from './AuraBlob'
+import ShardField from './ShardField'
 import SceneManager from '../core/SceneManager'
 
 export default function SceneWrapper() {
@@ -31,6 +32,7 @@ export default function SceneWrapper() {
         <Suspense fallback={null}>
           <SceneManager />
           <AuraBlob />
+          <ShardField />
         </Suspense>
         <Preload all />
       </Canvas>
