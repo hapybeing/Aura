@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, type ElementType, type ReactNode } from 'react'
+import { useEffect, useRef, type ElementType, type ReactNode, type CSSProperties } from 'react'
 import SplitType from 'split-type'
 import { gsap, registerGSAPPlugins, ScrollTrigger } from '@/lib/gsap-config'
 
@@ -11,14 +11,15 @@ interface KineticTextProps {
   as?: ElementType
   children: ReactNode
   className?: string
+  style?: CSSProperties
   splitBy?: SplitBy
   animation?: AnimationType
   stagger?: number
   delay?: number
   duration?: number
-  scrub?: boolean         // if true, ties animation directly to scroll position
-  threshold?: number      // 0-1, how far into view before firing
-  once?: boolean          // fire only once
+  scrub?: boolean
+  threshold?: number
+  once?: boolean
   'data-hover'?: string
 }
 
@@ -26,6 +27,7 @@ export default function KineticText({
   as: Tag = 'div',
   children,
   className = '',
+  style,
   splitBy = 'chars',
   animation = 'rise',
   stagger = 0.022,
@@ -54,11 +56,9 @@ export default function KineticText({
 
     if (!targets || targets.length === 0) return
 
-    // ── Initial hidden state ────────────────────────────────
     const fromVars = getFromVars(animation)
     gsap.set(targets, fromVars)
 
-    // ── Animation ──────────────────────────────────────────
     const toVars = getToVars(animation, duration)
 
     const tween = gsap.to(targets, {
@@ -81,38 +81,29 @@ export default function KineticText({
       })
       split.revert()
     }
-  // Run once on mount only — dep array intentionally empty
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     // @ts-expect-error — dynamic tag
-    <Tag ref={containerRef} className={className} style={{ overflow: 'hidden' }}>
+    <Tag ref={containerRef} className={className} style={{ overflow: 'hidden', ...style }}>
       {children}
     </Tag>
   )
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
-
 function getFromVars(animation: AnimationType): gsap.TweenVars {
   switch (animation) {
-    case 'rise':
-      return { y: '110%', opacity: 0, rotateX: -15 }
-    case 'fade':
-      return { opacity: 0, filter: 'blur(8px)' }
-    case 'slide':
-      return { x: -32, opacity: 0 }
+    case 'rise':  return { y: '110%', opacity: 0, rotateX: -15 }
+    case 'fade':  return { opacity: 0, filter: 'blur(8px)' }
+    case 'slide': return { x: -32, opacity: 0 }
   }
 }
 
 function getToVars(animation: AnimationType, duration: number): gsap.TweenVars {
   switch (animation) {
-    case 'rise':
-      return { y: '0%', opacity: 1, rotateX: 0, duration, ease: 'expo.out' }
-    case 'fade':
-      return { opacity: 1, filter: 'blur(0px)', duration, ease: 'power3.out' }
-    case 'slide':
-      return { x: 0, opacity: 1, duration, ease: 'expo.out' }
+    case 'rise':  return { y: '0%', opacity: 1, rotateX: 0, duration, ease: 'expo.out' }
+    case 'fade':  return { opacity: 1, filter: 'blur(0px)', duration, ease: 'power3.out' }
+    case 'slide': return { x: 0, opacity: 1, duration, ease: 'expo.out' }
   }
 }
