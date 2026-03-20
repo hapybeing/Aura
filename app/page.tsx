@@ -1,11 +1,12 @@
 import dynamic from 'next/dynamic'
-import Hero from '@/components/sections/Hero'
-import Manifesto from '@/components/sections/Manifesto'
+import Hero       from '@/components/sections/Hero'
+import Manifesto  from '@/components/sections/Manifesto'
 import Collective from '@/components/sections/Collective'
-import Archive from '@/components/sections/Archive'
+import Archive    from '@/components/sections/Archive'
+import Portal     from '@/components/sections/Portal'
 import CursorSystem from '@/components/core/CursorSystem'
 
-// Three.js accesses browser APIs — must be client-only, no SSR
+// Three.js canvas — browser-only, no SSR
 const SceneWrapper = dynamic(
   () => import('@/components/canvas/SceneWrapper'),
   { ssr: false, loading: () => null },
@@ -14,19 +15,19 @@ const SceneWrapper = dynamic(
 export default function Home() {
   return (
     <>
-      {/* Custom cursor — renders nothing on touch devices */}
+      {/* Magnetic cursor — no-op on touch */}
       <CursorSystem />
 
-      {/* Fixed WebGL canvas behind all content */}
+      {/* Single fixed WebGL canvas behind all layers */}
       <SceneWrapper />
 
-      {/* Scrollable content layer */}
+      {/* Full scrollable site */}
       <main className="content-layer">
         <Hero />
         <Manifesto />
         <Collective />
         <Archive />
-        {/* Portal — Session 6 */}
+        <Portal />
       </main>
     </>
   )
