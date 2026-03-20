@@ -5,6 +5,7 @@ import { Preload } from '@react-three/drei'
 import { Suspense } from 'react'
 import AuraBlob from './AuraBlob'
 import ShardField from './ShardField'
+import ParticleRiver from './ParticleRiver'
 import SceneManager from '../core/SceneManager'
 
 export default function SceneWrapper() {
@@ -33,6 +34,7 @@ export default function SceneWrapper() {
           <SceneManager />
           <AuraBlob />
           <ShardField />
+          <ParticleRiver />
         </Suspense>
         <Preload all />
       </Canvas>
