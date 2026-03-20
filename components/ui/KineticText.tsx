@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, type ElementType, type ReactNode, type CSSProperties } from 'react'
+import { useEffect, useRef, createElement, type ElementType, type ReactNode, type CSSProperties } from 'react'
 import SplitType from 'split-type'
 import { gsap, registerGSAPPlugins, ScrollTrigger } from '@/lib/gsap-config'
 
@@ -41,28 +41,21 @@ export default function KineticText({
 
   useEffect(() => {
     registerGSAPPlugins()
-
     const el = containerRef.current
     if (!el) return
 
     const split = new SplitType(el, { types: splitBy })
-
     const targets =
-      splitBy === 'chars'
-        ? split.chars
-        : splitBy === 'words'
-        ? split.words
-        : split.lines
+      splitBy === 'chars' ? split.chars
+      : splitBy === 'words' ? split.words
+      : split.lines
 
     if (!targets || targets.length === 0) return
 
-    const fromVars = getFromVars(animation)
-    gsap.set(targets, fromVars)
-
-    const toVars = getToVars(animation, duration)
+    gsap.set(targets, getFromVars(animation))
 
     const tween = gsap.to(targets, {
-      ...toVars,
+      ...getToVars(animation, duration),
       stagger,
       delay,
       scrollTrigger: {
@@ -76,19 +69,17 @@ export default function KineticText({
 
     return () => {
       tween.kill()
-      ScrollTrigger.getAll().forEach((st) => {
-        if (st.vars.trigger === el) st.kill()
-      })
+      ScrollTrigger.getAll().forEach((st) => { if (st.vars.trigger === el) st.kill() })
       split.revert()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return (
-    // @ts-expect-error — dynamic tag
-    <Tag ref={containerRef} className={className} style={{ overflow: 'hidden', ...style }}>
-      {children}
-    </Tag>
+  // createElement avoids dynamic JSX tag TypeScript issues entirely
+  return createElement(
+    Tag as string,
+    { ref: containerRef, className, style: { overflow: 'hidden', ...style } },
+    children,
   )
 }
 
