@@ -7,12 +7,14 @@ interface ScrollState {
   scrollDirection: number
   manifestoProgress: number
   collectiveProgress: number
+  portalProgress: number
   setScrollY: (y: number) => void
   setScrollProgress: (progress: number) => void
   setScrollVelocity: (velocity: number) => void
   setScrollDirection: (direction: number) => void
   setManifestoProgress: (v: number) => void
   setCollectiveProgress: (v: number) => void
+  setPortalProgress: (v: number) => void
 }
 
 export const useScrollStore = create<ScrollState>()((set) => ({
@@ -22,10 +24,12 @@ export const useScrollStore = create<ScrollState>()((set) => ({
   scrollDirection: 0,
   manifestoProgress: 0,
   collectiveProgress: 0,
+  portalProgress: 0,
   setScrollY: (y) => set({ scrollY: y }),
   setScrollProgress: (progress) => set({ scrollProgress: progress }),
   setScrollVelocity: (velocity) => set({ scrollVelocity: velocity }),
   setScrollDirection: (direction) => set({ scrollDirection: direction }),
   setManifestoProgress: (v) => set({ manifestoProgress: v }),
   setCollectiveProgress: (v) => set({ collectiveProgress: v }),
+  setPortalProgress: (v) => set({ portalProgress: v }),
 }))
