@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic'
 import Hero from '@/components/sections/Hero'
+import Manifesto from '@/components/sections/Manifesto'
 import CursorSystem from '@/components/core/CursorSystem'
 
 // Three.js accesses browser APIs — must be client-only, no SSR
@@ -20,7 +21,8 @@ export default function Home() {
       {/* Scrollable content layer */}
       <main className="content-layer">
         <Hero />
-        {/* Manifesto, Collective, Archive, Portal — added in future sessions */}
+        <Manifesto />
+        {/* Collective, Archive, Portal — added in future sessions */}
       </main>
     </>
   )
