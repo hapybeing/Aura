@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Syne, Bricolage_Grotesque, DM_Mono } from 'next/font/google'
 import './globals.css'
 import SmoothScroller from '@/components/core/SmoothScroller'
+import NoiseSurface from '@/components/ui/NoiseSurface'
 
 const syne = Syne({
   subsets: ['latin'],
@@ -34,42 +35,26 @@ export const metadata: Metadata = {
       'A digital art collective at the intersection of generative systems, liquid computation, and the sublime.',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AURA — The Generative Sanctuary',
+    description: 'Generative systems. Liquid computation. The sublime.',
+  },
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
       className={`${syne.variable} ${bricolage.variable} ${dmMono.variable}`}
     >
       <body className="bg-obsidian-950 text-mercury-100 overflow-x-hidden">
-        {/* Grain noise overlay */}
-        <div className="grain-overlay" aria-hidden="true" />
+        {/* Canvas-based grain overlay — sharper than CSS SVG on retina */}
+        <NoiseSurface opacity={0.030} tileSize={200} />
 
-        {/* SVG Noise filter definition (used by grain overlay) */}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ position: 'absolute', width: 0, height: 0 }}
-          aria-hidden="true"
-        >
-          <defs>
-            <filter id="grain-filter" x="0%" y="0%" width="100%" height="100%">
-              <feTurbulence
-                type="fractalNoise"
-                baseFrequency="0.65"
-                numOctaves="3"
-                stitchTiles="stitch"
-              />
-              <feColorMatrix type="saturate" values="0" />
-            </filter>
-          </defs>
-        </svg>
-
-        {/* Smooth scroll wrapper — bridges Lenis + GSAP */}
+        {/* Smooth scroll bridge — Lenis + GSAP ScrollTrigger */}
         <SmoothScroller>
           {children}
         </SmoothScroller>
