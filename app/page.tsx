@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic'
 import Hero from '@/components/sections/Hero'
 import Manifesto from '@/components/sections/Manifesto'
 import Collective from '@/components/sections/Collective'
+import Archive from '@/components/sections/Archive'
 import CursorSystem from '@/components/core/CursorSystem'
 
 // Three.js accesses browser APIs — must be client-only, no SSR
@@ -24,7 +25,8 @@ export default function Home() {
         <Hero />
         <Manifesto />
         <Collective />
-        {/* Archive, Portal — added in Sessions 5 & 6 */}
+        <Archive />
+        {/* Portal — Session 6 */}
       </main>
     </>
   )
