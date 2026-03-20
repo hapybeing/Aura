@@ -6,6 +6,7 @@ import { Suspense } from 'react'
 import AuraBlob from './AuraBlob'
 import ShardField from './ShardField'
 import ParticleRiver from './ParticleRiver'
+import PortalBackground from './PortalBackground'
 import SceneManager from '../core/SceneManager'
 
 export default function SceneWrapper() {
@@ -32,6 +33,7 @@ export default function SceneWrapper() {
       >
         <Suspense fallback={null}>
           <SceneManager />
+          <PortalBackground />
           <AuraBlob />
           <ShardField />
           <ParticleRiver />
